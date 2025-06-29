@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght,ELSH@100..900,57.5&display=swap");
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Bitcount Grid Double", system-ui;
+  min-height: 100vh;
+  background-color: whitesmoke;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 35px;
+  letter-spacing: 5px;
+}
+
+/* Loader */
+.loader {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgb(255, 255, 255, 0.7);
+}
+.loader img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+/* image container */
+.image-container {
+  /* *margin is very powerful */
+  margin: 10px 30%;
+  /* width: min(calc(100% - 10px), 800px); */
+}
+
+.image-container img {
+  width: 100%;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+/* media query for large phones:600 */
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 20px;
+    letter-spacing: 1.5px;
+  }
+  .image-container {
+    margin: 10px;
+  }
+}
