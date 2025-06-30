@@ -4,25 +4,39 @@ const loader = document.getElementById("loader");
 
 // functions
 // unsplash apid
-let isLoading = false;
-function startLoadingPhotos() {
-  loader.hidden = false;
-  isLoading = true;
+let canLoad = false;
+let imgsCount = 0;
+let firstTime = true;
+
+function showLoader() {
+  if (firstTime) {
+    loader.hidden = false;
+    firstTime = false;
+  }
 }
 
-function finishLoadingPhotos() {
+function hideLoader() {
   loader.hidden = true;
-  isLoading = false;
 }
-
+function imageLoaded(totalCount) {
+  imgsCount++;
+  console.log("image loaded", imgsCount);
+  if (imgsCount === totalCount) {
+    canLoad = true;
+    imgsCount = 0;
+  }
+}
 function appendPhotosToContainer(photos) {
   for (const ph of photos) {
     const img = document.createElement("img");
-    img.src = ph?.urls.full;
+    img.src = ph?.urls.regular;
     img.alt = ph?.alt_description;
     img.title = ph?.alt_description;
     img.addEventListener("click", () => {
       window.open(ph?.links.html);
+    });
+    img.addEventListener("load", () => {
+      imageLoaded(photos.length);
     });
     imgContainer.appendChild(img);
   }
@@ -30,24 +44,16 @@ function appendPhotosToContainer(photos) {
 
 async function fetchPhotos() {
   try {
-    startLoadingPhotos();
-
     // fetching photos
-    const count = 5;
-    const accessKey = "jFgS8tteGD425f4oZfygQVaVnD6gt6GucN2yyz3xFek";
+    showLoader();
+    const count = 30;
+    const accessKey = "F_bDPYAPrrVnEyvB2xvDlL5o-2k_iVjm7iH2woXcOMA";
     const response = await fetch(
       `https://api.unsplash.com/photos/random?count=${count}&query=nature&client_id=${accessKey}`
     );
     const data = await response.json();
-
-    // todo: remove me
-    for (const img of data) {
-      console.log(img?.urls.regular);
-      console.log(img?.alt_description);
-      console.log(img?.links?.html);
-    }
+    hideLoader();
     appendPhotosToContainer(data);
-    finishLoadingPhotos();
   } catch (error) {
     console.log(error);
   }
@@ -62,9 +68,11 @@ window.addEventListener("scroll", () => {
   // * all length are in px
   if (
     window.scrollY + window.innerHeight >=
-    document.documentElement.scrollHeight - 50
+      document.documentElement.scrollHeight - 1000 &&
+    canLoad
   ) {
-    console.log("hello scroller");
+    canLoad = false;
+    fetchPhotos();
   }
 });
 ``;
