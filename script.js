@@ -20,7 +20,6 @@ function hideLoader() {
 }
 function imageLoaded(totalCount) {
   imgsCount++;
-  console.log("image loaded", imgsCount);
   if (imgsCount === totalCount) {
     canLoad = true;
     imgsCount = 0;
@@ -45,8 +44,8 @@ function appendPhotosToContainer(photos) {
 async function fetchPhotos() {
   try {
     // fetching photos
+    const count = firstTime ? 5 : 30;
     showLoader();
-    const count = 30;
     const accessKey = "F_bDPYAPrrVnEyvB2xvDlL5o-2k_iVjm7iH2woXcOMA";
     const response = await fetch(
       `https://api.unsplash.com/photos/random?count=${count}&query=nature&client_id=${accessKey}`
@@ -68,7 +67,7 @@ window.addEventListener("scroll", () => {
   // * all length are in px
   if (
     window.scrollY + window.innerHeight >=
-      document.documentElement.scrollHeight - 1000 &&
+      document.documentElement.scrollHeight - 1500 &&
     canLoad
   ) {
     canLoad = false;
